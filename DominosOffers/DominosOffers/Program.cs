@@ -92,6 +92,11 @@ namespace DominosOffers
                                     case "Description":
                                         var description = (string) reader.Value;
                                         var cut2 = description.IndexOf("$");
+                                        if (cut2 == -1) {
+                                            product = description;
+                                            price = "";
+                                            break;
+                                        }
                                         product = description.Substring(0, description.LastIndexOf(" ", cut2 - 2));
                                         price = description.Substring(cut2, description.IndexOf(" ", cut2) - cut2);
                                         break;
@@ -100,7 +105,7 @@ namespace DominosOffers
 
                             case JsonToken.EndObject:
                                 if (printString) {
-                                    Console.WriteLine("{0}: {1}, {2}", voucherCode, product, price);
+                                    Console.WriteLine("{0}: {1}{2}{3}", voucherCode, product, (price != "") ? ", " : "", price);
                                     printString = false;
                                 }
                                 break;
